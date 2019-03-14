@@ -26,6 +26,9 @@ private:
     /// \desc very short description of this command. should be a single, short sentence. should not include returns.
     std::string m_Brief;
 
+    /// \desc long description. multiple lines, explaining how to use the command etc.
+    std::string m_Description;
+
     /// \desc user defined behaviour of this command
     behaviour_type m_UserMain;
 
@@ -34,6 +37,8 @@ private:
 
     /// \desc parent command of this command
     Command *m_pParent = nullptr;
+
+    void printHelp();
 
     int main(const ParameterList &aParams, Command *const pParent);
 
@@ -47,7 +52,7 @@ public:
     /// Convenience overload, to allow the user to pass standard C++ commandline args (argc, argv) directly to a root command, without forcing user to manipulate the args themselves.
     int operator()(int argc, char* argv[]);
 
-    Command(const std::string &aName, const std::string &aBrief,  const behaviour_type &aBehaviour, const std::vector<Command> &aCommands);
+    Command(const std::string &aName, const std::string &aBrief, const std::string &aDescription,  const behaviour_type &aBehaviour, const std::vector<Command> &aCommands);
 };
 
 #endif
