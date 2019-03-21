@@ -42,6 +42,10 @@ private:
 
     int main(const ParameterList &aParams, Command *const pParent);
 
+protected:
+    /// \desc called when the parameter list is invalid for the command.
+    virtual void onError(const ParameterList &aParams, Command *const pParent);
+
 public:
     std::string getName() const;
 

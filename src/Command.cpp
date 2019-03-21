@@ -6,13 +6,35 @@
 #include <sstream>
 
 #define RED   "\x1B[31m"
-#define GRN   "\x1B[32m"
+#define RESET "\x1B[0m"
+
+/*#define GRN   "\x1B[32m"
 #define YEL   "\x1B[33m"
 #define BLU   "\x1B[34m"
 #define MAG   "\x1B[35m"
 #define CYN   "\x1B[36m"
-#define WHT   "\x1B[37m"
-#define RESET "\x1B[0m"
+#define WHT   "\x1B[37m"*/
+
+std::string ApplyColor(std::string &aColor, std::string &aString)
+{
+    aString.insert(0, "\x1B[31m").insert(aString.size(), "\x1B[0m");
+
+    return aString;
+}
+std::string ApplyColor(std::string &&aColor, std::string &&aString)
+{
+    return ApplyColor(aColor, aString);
+}
+
+std::string Red(std::string &aString)
+{
+    ApplyColor(std::string(RED), aString);
+}
+std::string Red(std::string &&aString)
+{
+    Red(aString);
+}
+
 
 void Command::printHelp()
 {
@@ -81,6 +103,13 @@ void Command::printHelp()
     std::cout << std::endl;
 }
 
+void Command::onError(const ParameterList &aParams, Command *const pParent)
+{
+    std::cout << Red("error:") << " unrecognized argument[s] for " + m_Name << std::endl;
+
+    printHelp();
+}
+
 int Command::main(const ParameterList &aParams, Command *const pParent)
 {
     m_pParent = pParent;
@@ -113,12 +142,7 @@ int Command::main(const ParameterList &aParams, Command *const pParent)
 
     auto returnValue = m_UserMain(m_ParameterList, this);
 
-    if (returnValue == EXIT_FAILURE)
-    {
-        std::cout << RED "error:" RESET " unrecognized argument[s] for " + m_Name << std::endl;
-
-        printHelp();
-    }
+    if (returnValue == EXIT_FAILURE) onError(aParams, pParent);
 
     return returnValue;
 }
