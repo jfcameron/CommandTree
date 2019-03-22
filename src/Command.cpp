@@ -15,7 +15,7 @@
 #define CYN   "\x1B[36m"
 #define WHT   "\x1B[37m"*/
 
-std::string ApplyColor(std::string &aColor, std::string &aString)
+/*std::string ApplyColor(std::string &aColor, std::string &aString)
 {
     aString.insert(0, "\x1B[31m").insert(aString.size(), "\x1B[0m");
 
@@ -33,19 +33,12 @@ std::string Red(std::string &aString)
 std::string Red(std::string &&aString)
 {
     Red(aString);
-}
+}*/
 
 
 void Command::printHelp()
 {
-    const auto *const pRoot = this;/* [this] // Break out to member level (possibly static?) function: getRootCommand
-    {
-        const auto *pCommand = this;
-
-        while (pCommand->m_pParent) pCommand = pCommand->m_pParent;
-
-        return pCommand;
-    }();*/
+    const auto *const pRoot = this;
 
     std::function<void (const Command *, const int, int &, std::vector<std::pair<std::string, std::string>>&)> visitDescendants = [&](const Command *pCurrentCommand, int depth, int &maxWidth, std::vector<std::pair<std::string, std::string>> &nodeNameDescriptionPairs) // wrap in member level (nonstatic) function: visitDescendants(pNode, maxDepth, pVisitorFunction) and depth (currentdepth) should be hidden from user.
     {   
@@ -53,12 +46,9 @@ void Command::printHelp()
 
         currentCommandName.insert(currentCommandName.begin(), depth, ' ');
 
-        //if (pCurrentCommand != pRoot) // TODO: do i want to print the current node or just subcommands?
-        {
-            nodeNameDescriptionPairs.push_back({currentCommandName, pCurrentCommand->m_Brief});
+        nodeNameDescriptionPairs.push_back({currentCommandName, pCurrentCommand->m_Brief});
 
-            depth++;
-        }
+        depth++;
 
         const auto currentWidth = currentCommandName.size();
 
@@ -105,7 +95,7 @@ void Command::printHelp()
 
 void Command::onError(const ParameterList &aParams, Command *const pParent)
 {
-    std::cout << Red("error:") << " unrecognized argument[s] for " + m_Name << std::endl;
+    std::cout << /*Red(*/"error:"/*)*/ << " unrecognized argument[s] for " + m_Name << std::endl;
 
     printHelp();
 }
@@ -132,7 +122,6 @@ int Command::main(const ParameterList &aParams, Command *const pParent)
         }
     }
 
-    // handle help. works but i think its inappropriate thsi work is doen inline. sohuld be mapped. Reminder: This is WAY too much inline wokr!!!
     if (m_ParameterList.containsOption('h'))
     {
         printHelp();

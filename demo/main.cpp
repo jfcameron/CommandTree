@@ -104,7 +104,7 @@ public:
 
 int main(int argc, char **argv)
 {
-    log("blar");
+    log("blar", "lbim", 123123);
 
     Command root("git",
         "a neato utility for managing source code",

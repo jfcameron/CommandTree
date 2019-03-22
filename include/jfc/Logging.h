@@ -3,7 +3,8 @@
 
 void log(std::ostringstream &stringStream)
 {
-    //m_LoggingBehaviourCallback(stringStream.str());
+    //m_LoggingBehaviourCallback(stringStre am.str());
+    std::cout << stringStream.str() << "\n";
 }
 
 template<typename First, typename ...Rest>

@@ -1,7 +1,7 @@
 #ifndef _JFC_COMMAND_TREE_COMMAND_H
 #define _JFC_COMMAND_TREE_COMMAND_H
 
-#include <jfc/ParameterList.h> //#include "ParameterList.h"
+#include <jfc/ParameterList.h>
 
 #include <string>
 #include <map>
