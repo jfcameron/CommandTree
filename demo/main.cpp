@@ -17,36 +17,6 @@
 #include <string> 
 #include <tuple>
 #include <vector>
-
-/*// POSIX 
-#include <sys/stat.h>
-
-/// \todo move to filesystem_bridge.h?
-namespace jfc
-{
-    /// \desc makes a directory in the current directory
-    void mkdir(const std::string &aDirectory)
-    {
-        if (const int dir_err = ::mkdir(aDirectory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); dir_err == -1) 
-            throw std::runtime_error(std::string("Could not make directory \"").append(aDirectory).append("\"!"));
-    }
-    
-    /// \desc prompts user for input, processes the raw input and produces an instance of a user-defined type for consumption.
-    /// \param aMessage message to display before blocking for input
-    /// \param aVisitor function wrapper that may modify (massage/sanitize) and or validate (throw if bad) the string retrieved from the user before returning an instance of T.
-    template<class userdata_type>
-    userdata_type promptUser(const std::string &aMessage, const std::function<userdata_type(std::string &aInput)> aVisitor)
-    {
-        std::cout << aMessage << std::endl;
-
-        std::string input;
-        std::cin >> input;
-
-        return aVisitor(input);
-    }
-}*/
-// ======================================================================================================================================================================================================
-
 #include <sstream>
 
 std::string git_status_description = R"V0G0N(usage: git status [<options>] [--] <pathspec>...
@@ -94,18 +64,10 @@ usage: git log [<options>] [<revision-range>] [[--] <path>...]
     -L <n,m:file>         Process line range n,m in file, counting from 1)V0G0N"
 ;
 
-class Palette
-{
-public:
-    void applyColor(std::string &aString);
-};
-
 #include <jfc/Logging.h>
 
 int main(int argc, char **argv)
 {
-    log("blar", "lbim", 123123);
-
     Command root("git",
         "a neato utility for managing source code",
         []()
